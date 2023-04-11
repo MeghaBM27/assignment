@@ -7,9 +7,8 @@ function Search() {
     const [searchInput, setsearchInput] = useState('')
     const [arraydata, setArrayData] = useState([])
     const [suggestion, setSuggestion] = useState(['a'])
-    // const InputRef=useRef()
     const [searchFocus, setsearchFocus] = useState(false)
-    const [dummyArray,setdummyArray]=useState([])
+    const [dummyArray, setdummyArray] = useState([])
 
     const fetchingDAta = () => {
         // axios('https://drive.google.com/file/d/1mxkyTLHqg28DvprxXWsnzppu1dAAD-89/view?usp=sharing')
@@ -17,7 +16,7 @@ function Search() {
             .then((res) => {
                 console.log(res.data)
                 setArrayData(res.data)
-                
+
             })
             .catch((err) => {
                 console.log(err)
@@ -35,42 +34,45 @@ function Search() {
         if (suggestion.includes(value)) {
             setsearchInput('')
             setsearchFocus(false)
-            return  
-           
+            return
+
         }
         else {
             setSuggestion([...suggestion, value])
             setsearchInput('')
             setsearchFocus(false)
         }
-      
+
 
     }
-    const filterdata=(e)=>{
-const dataobj=arraydata.filter(item=>{
-    return item.name.toLowerCase().search(
-    e.toLowerCase()) !== -1;})
-// setArrayData(dataobj)
-setdummyArray(dataobj)
-console.log(e)
+    const filterdata = (e) => {
+        const dataobj = arraydata.filter(item => {
+            return item.name.toLowerCase().search(
+                e.toLowerCase()) !== -1;
+        })
+        // setArrayData(dataobj)
+        setdummyArray(dataobj)
+        console.log(dataobj)
     }
 
-    //    console.log(InputRef.current.focus()) 
+
 
     return (
         <Fragment>
             <div>
 
-                <p>search</p>
+                <p style={{ fontSize: '25px', fontWeight: '600' }}>SEARCH DETAILS</p>
                 <div className='inputHolder' style={{ display: "flex" }}>
-
                     <input type="text" onClick={() => { setsearchFocus(true) }} onChange={changeInput} value={searchInput} />
+                    <button onClick={() => { onSuggestion(searchInput); filterdata(searchInput) }}  >submit</button>
 
-                    <button onClick={() => { onSuggestion(searchInput);filterdata(searchInput)}}  >submit</button>
+
                     {searchFocus && <div className='suggestionHolder' >
                         {suggestion.length > 0 ? suggestion?.map((val, idx) => {
                             return (
-                                <p key={idx} onClick={() => { setsearchInput(val) }}>{val}</p>
+                                <div style={{ cursor: 'pointer' }}>
+                                    <p key={idx} onClick={() => { setsearchInput(val); filterdata(val); onSuggestion(searchInput) }}>{val}</p>
+                                </div>
                             )
                         })
                             : null
@@ -84,7 +86,7 @@ console.log(e)
             <div className='parent-details'>
                 {dummyArray?.length > 0 ? dummyArray?.map((item, index) => {
                     return (
-                        <div key={index} className='details'> 
+                        <div key={index} className='details'>
                             <p>{item.name}</p>
                             <p>{item.username}</p>
                             <p>{item.company.name}</p>
@@ -92,7 +94,7 @@ console.log(e)
                         </div>
                     )
                 })
-                    : <p>search something</p>}
+                    : <p style={{ marginLeft: '46%' }}>no record found</p>}
             </div>
 
 
