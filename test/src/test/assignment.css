@@ -1,0 +1,26 @@
+.inputHolder{
+    position: relative;
+    width: fit-content;
+    margin-left: 50%;
+
+}
+.suggestionHolder{
+    position: absolute;
+    width: 100%;
+    top: 100%;
+    left: 0;
+    border:1px solid grey;
+    background-color: #fff;
+}
+.details{
+    background-color: #fff;
+    border: 1px solid grey;
+    box-shadow: 0px 2px 3px grey;
+    width: 25%;
+}
+.parent-details{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 100px 100px;
+    gap: 20px;
+}
