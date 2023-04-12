@@ -30,32 +30,35 @@ function Search() {
     const changeInput = (e) => {
         setsearchInput(e.target.value);
     }
-    const onSuggestion = (value) => {
-        if (suggestion.includes(value)) {
-            setsearchInput('')
-            setsearchFocus(false)
-            return
-
-        }
-        else {
-            setSuggestion([...suggestion, value])
-            setsearchInput('')
-            setsearchFocus(false)
-        }
-
-
+    const onsearch = (searchtext) => {
+        setsearchInput(searchtext)
     }
+    // const onSuggestion = (value) => {
+    //     if (suggestion.includes(value)) {
+    //         setsearchInput('')
+    //         setsearchFocus(false)
+    //         return
+
+    //     }
+    //     else {
+    //         setSuggestion([...suggestion, value])
+    //         setsearchInput('')
+    //         setsearchFocus(false)
+    //     }
+
+
+    // }
     const filterdata = (e) => {
         const dataobj = arraydata.filter(item => {
             return item.name.toLowerCase().search(
                 e.toLowerCase()) !== -1;
+            // return item.name.toLowerCase() && item.name
+
         })
         // setArrayData(dataobj)
         setdummyArray(dataobj)
         console.log(dataobj)
     }
-
-
 
     return (
         <Fragment>
@@ -64,18 +67,34 @@ function Search() {
                 <p style={{ fontSize: '25px', fontWeight: '600' }}>SEARCH DETAILS</p>
                 <div className='inputHolder' style={{ display: "flex" }}>
                     <input type="text" onClick={() => { setsearchFocus(true) }} onChange={changeInput} value={searchInput} />
-                    <button onClick={() => { onSuggestion(searchInput); filterdata(searchInput) }}  >submit</button>
+                    {/* <button onClick={() => { onSuggestion(searchInput); filterdata(searchInput) }}  >submit</button> */}
+                    <button onClick={() => { filterdata(searchInput) }}  >submit</button>
+
 
 
                     {searchFocus && <div className='suggestionHolder' >
-                        {suggestion.length > 0 ? suggestion?.map((val, idx) => {
+                        {/* {suggestion.length > 0 ? suggestion?.map((val, idx) => {
                             return (
                                 <div style={{ cursor: 'pointer' }}>
-                                    <p key={idx} onClick={() => { setsearchInput(val); filterdata(val); onSuggestion(searchInput) }}>{val}</p>
+                                    <p key={idx} onClick={() => { setsearchInput(val); filterdata(val); onSuggestion(searchInput)}}>{val}</p>
                                 </div>
                             )
                         })
                             : null
+                        } */}
+                        {
+                            arraydata.filter((da) => {
+                                const searchtext = searchInput.toLowerCase()
+                                const nameofdata = da.name.toLowerCase();
+                                return searchtext && nameofdata.startsWith(searchtext)
+                            })
+
+                                .map((val, idx) => {
+                                    return (
+                                        <div key={idx} onClick={() => { onsearch(val.name); filterdata(searchInput) }}>{val.name}
+                                        </div>
+                                    )
+                                })
                         }
                     </div>}
 
